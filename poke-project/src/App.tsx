@@ -5,19 +5,20 @@ import pokeBall from '../public/pokeball.svg'
 import ReactAudioPlayer from 'react-audio-player';
 
 
-const baseURL = "https://pokeapi.co/api/v2/pokemon/?limit=160";
+const baseURL = "https://pokeapi.co/api/v2/pokemon/?limit=151";
 
 function App() {
   const [allPokemon, setAllPokemon] = useState<any>(null);
   const [pokemonOne, setPokemonOne] = useState<string>()
   const [pokemonTwo, setPokemonTwo] = useState<string>()
-  const [typesOne, setTypesOne] = useState([])
-  const [typesTwo, setTypesTwo] = useState([])
+  const [typesOne, setTypesOne] = useState<any>([])
+  const [typesTwo, setTypesTwo] = useState<any>([])
   const [nameOne, setNameOne] = useState<string>()
   const [nameTwo, setNameTwo] = useState<string>()
   const [cry, setCry] = useState<string>()
   const [rerollsOne, setRerollsOne] = useState<number>(0)
   const [rerollsTwo, setRerollsTwo] = useState<number>(0)
+  const [battleState, setBattleState] : any = useState([])
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -36,7 +37,7 @@ function App() {
   })
 
   const handleClickOne = () => {
-    const randomNumberOne = Math.floor(Math.random() * 160)
+    const randomNumberOne = Math.floor(Math.random() * 151)
     if (rerollsOne < 3) {
       axios.get(pokeURLs[randomNumberOne]).then((response) => {
         setTypesOne([])
@@ -52,7 +53,7 @@ function App() {
   }
 
   const handleClickTwo = () => {
-    const randomNumberTwo = Math.floor(Math.random() * 160)
+    const randomNumberTwo = Math.floor(Math.random() * 151)
 
     if (rerollsTwo < 3) {
       axios.get(pokeURLs[randomNumberTwo]).then((response) => {
@@ -69,14 +70,37 @@ function App() {
   }
 
   const getTypes = () => {
-    // console.log(typesTwo)
-    typesOne.forEach((type : any ) => {
-      console.log('One: ', type.type.name)
+    console.log(typesOne[0])
+
+    ////////////// Tie breaker /////////////
+    if (typesOne[0].type.name === typesTwo[0].type.name) {
+      const tieBreaker = Math.floor(Math.random() * 100)
+      console.log(tieBreaker)
+      if (tieBreaker >= 50) {
+        //Pokemon One Wins
+        alert('Pokemon One Wins')
+      } else {
+        // Pokemon Two Wins
+        alert('Pokemon Two Wins')
+
+      }
+    }
+
+    typesOne.forEach((type : any , i) => {
+      setBattleState(...battleState,`TypeOne${i}: ${type.type.name}`)
     })
-    typesTwo.forEach((type : any ) => {
-      console.log('Two: ', type.type.name)
+    typesTwo.forEach((type : any, i ) => {
+      setBattleState(...battleState, `TypeTwo${i}: ${type.type.name}`)
     })
 
+
+
+  }
+
+  const battle = () => {
+    if (battleState.length > 0) {
+      console.log(battleState)
+    }    
     setRerollsOne(0)
     setRerollsTwo(0)
   }
@@ -102,9 +126,9 @@ function App() {
             </div>
             }
           <button 
-            className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-10' 
+            className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
             onClick={handleClickOne}>
-              CLICK ME
+              Choose Your Pokemon
           </button>
           {rerollsOne === 0 ? 
             '' : 
@@ -127,7 +151,7 @@ function App() {
           <button 
             className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-10' 
             onClick={handleClickTwo}>
-              CLICK ME
+              Choose Your Pokemon
           </button>
           {rerollsTwo === 0 ? 
             '' :  
@@ -142,10 +166,15 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center">
+        <button 
+          className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-20 mr-5' 
+          onClick={getTypes}>
+            LOCK IT IN
+        </button>
         <button 
           className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-20' 
-          onClick={getTypes}>
+          onClick={battle}>
             BATTLE
         </button>
       </div>
