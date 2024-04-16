@@ -9,15 +9,16 @@ const baseURL = "https://pokeapi.co/api/v2/pokemon/?limit=151";
 
 function App() {
   const [allPokemon, setAllPokemon] = useState<any>(null);
-  const [pokemonOne, setPokemonOne] = useState<string>()
-  const [pokemonTwo, setPokemonTwo] = useState<string>()
+  const [pokemonOne, setPokemonOne] = useState<string>('')
+  const [pokemonTwo, setPokemonTwo] = useState<string>('')
   const [typesOne, setTypesOne] = useState<any>([])
   const [typesTwo, setTypesTwo] = useState<any>([])
-  const [nameOne, setNameOne] = useState<string>()
-  const [nameTwo, setNameTwo] = useState<string>()
-  const [cry, setCry] = useState<string>()
+  const [nameOne, setNameOne] = useState<string>('')
+  const [nameTwo, setNameTwo] = useState<string>('')
+  const [cry, setCry] = useState<string>('')
   const [rerollsOne, setRerollsOne] = useState<number>(0)
   const [rerollsTwo, setRerollsTwo] = useState<number>(0)
+  const [winner, setWinner] = useState<string>('')
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -74,10 +75,10 @@ function App() {
     const tieBreaker = Math.floor(Math.random() * 100)
     if (tieBreaker >= 50) {
       //Pokemon One Wins
-      alert('Pokemon One Wins')
+      setWinner('Pokemon One')
     } else {
       // Pokemon Two Wins
-      alert('Pokemon Two Wins')
+      setWinner('Pokemon Two')
     }
   }
 
@@ -86,25 +87,28 @@ function App() {
     const tieBreaker = Math.floor(Math.random() * 100)
     if (tieBreaker >= 75) {
       //Pokemon One Wins
-      alert('Pokemon One Wins')
+      setWinner('Pokemon One')
     } else {
       // Pokemon Two Wins
-      alert('Pokemon Two Wins')
+      setWinner('Pokemon Two')
     }
   }
 
   ////////////// Victory /////////////
   const victory = () => {
-    alert('Pokemon One Wins')
+    setWinner('Pokemon One')
   }
   
   /////////// Defeat ////////////
   const defeat = () => {
-    alert('Pokemon Two Wins')
+    setWinner('Pokemon Two')
   }
 
-  const getTypes = () => {
+  const close = () => {
+    setWinner('')
+  }
 
+  const battle = () => {
     setRerollsOne(0)
     setRerollsTwo(0)
 
@@ -678,73 +682,91 @@ function App() {
 
 
   return (
-    <>
-      <div className="flex flex-col w-full items-center">
-        <img className="mt-10 max-w-[600px]" src={pokeHeading} alt="" />
-        <h1 className="text-[42px] m-[-20px] font-black text-[#0075BE]">BATTLER</h1>
-      </div>
-      <div className="flex mt-20">
-
-
-        <div className="flex flex-col items-center h-full w-full">
-          {!pokemonOne ? 
-            <div className="flex flex-col items-center w-[260px h-[260px]">
-              <img src={pokeBall} alt="pokeball" className='w-52' /> 
-            </div> : 
-            <div className='flex flex-col w-[260px h-[260px]'>
-              <img className="w-52 h-52 mt-5" src={pokemonOne} alt="" />
-              <h1 className="text-2xl text-center font-black text-[#0075BE] capitalize">{nameOne}</h1>
-            </div>
-            }
-          <button 
-            className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
-            onClick={handleClickOne}>
-              Choose Your Pokemon
-          </button>
-          {rerollsOne === 0 ? 
-            '' : 
-            <div className="text-2xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsOne}</div>  
-          }
+    <div className='flex relative items-center justify-center'>
+      <div className={
+          `${winner.length > 0 ? 
+          "blur" : ""}`
+      }>
+        <div className="flex  flex-col w-full items-center">
+          <img className="mt-10 max-w-[600px]" src={pokeHeading} alt="" />
+          <h1 className="text-[42px] m-[-20px] font-black text-[#0075BE]">BATTLER</h1>
         </div>
-       
-       
-        <div className="flex flex-col items-center h-full w-full">
-          {!pokemonTwo ? 
-            <div className="flex flex-col items-center w-[260px h-[260px]">
-              <img src={pokeBall} alt="pokeball" className='w-52' /> 
-            </div> : 
-            <div className='flex flex-col w-[260px h-[260px]'>
-              <img className="w-52 h-52 mt-5" src={pokemonTwo} alt="" />
-              <h1 className="text-2xl text-center font-black text-[#0075BE] capitalize">{nameTwo}</h1>
+        <div className="flex mt-36">
+
+
+          <div className="flex flex-col items-center h-full w-full mr-16">
+            {!pokemonOne ? 
+              <div className="flex flex-col items-center w-[260px h-[260px]">
+                <img src={pokeBall} alt="pokeball" className='w-52' /> 
+              </div> : 
+              <div className='flex flex-col w-[260px h-[260px]'>
+                <img className="w-52 h-52 mt-5" src={pokemonOne} alt="" />
+                <h1 className="text-2xl text-center font-black text-[#0075BE] capitalize">{nameOne}</h1>
+              </div>
+              }
+            <button 
+              className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
+              onClick={handleClickOne}>
+                Choose Your Pokemon
+            </button>
+            {rerollsOne === 0 ? 
+              '' : 
+              <div className="text-2xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsOne}</div>  
+            }
+          </div>
+        
+        
+          <div className="flex flex-col items-center h-full w-full">
+            {!pokemonTwo ? 
+              <div className="flex flex-col items-center w-[260px h-[260px]">
+                <img src={pokeBall} alt="pokeball" className='w-52' /> 
+              </div> : 
+              <div className='flex flex-col w-[260px h-[260px]'>
+                <img className="w-52 h-52 mt-5" src={pokemonTwo} alt="" />
+                <h1 className="text-2xl text-center font-black text-[#0075BE] capitalize">{nameTwo}</h1>
+              </div>
+            }
+            <button 
+              className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
+              onClick={handleClickTwo}>
+                Choose Your Pokemon
+            </button>
+            {rerollsTwo === 0 ? 
+              '' :  
+              <div className="text-2xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsTwo}</div> 
+            }
+            <div className="hidden">
+              <ReactAudioPlayer
+                src={cry}
+                autoPlay = {true}
+                controls
+              />
             </div>
-          }
-          <button 
-            className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
-            onClick={handleClickTwo}>
-              Choose Your Pokemon
-          </button>
-          {rerollsTwo === 0 ? 
-            '' :  
-            <div className="text-2xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsTwo}</div> 
-          }
-          <div className="hidden">
-            <ReactAudioPlayer
-              src={cry}
-              autoPlay = {true}
-              controls
-            />
           </div>
         </div>
+        <div className="flex flex-col items-center">
+          <button 
+            className='flex justify-center align-center w-72 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-36' 
+            onClick={battle}>
+              Battle
+          </button>
+        </div>
       </div>
-      <div className="flex flex-col items-center">
+    {winner.length > 0 ?
+      <div className="flex flex-col absolute justify-center items-center w-[600px] h-[600px] bg-[#FFCC00] text-2xl font-black text-[#0075BE] p-5 rounded-full border-8 border-[#0075BE]">
+        <img className="w-52 h-52 mt-5" src={ winner === "Pokemon One" ? pokemonOne :pokemonTwo } alt="" />
+        {winner} is the WINNER!
         <button 
-          className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-20 mr-5' 
-          onClick={getTypes}>
-            Battle
+            className='flex justify-center items-center bg-[#0075BE] text-sm font-black text-[#FFCC00] p-2 mt-20 rounded-full w-6 h-6' 
+            onClick={close}>
+              X
         </button>
       </div>
+    :
+      ''
+    }
 
-    </>
+    </div>
   )
 }
 
