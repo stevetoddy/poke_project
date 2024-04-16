@@ -19,6 +19,8 @@ function App() {
   const [rerollsOne, setRerollsOne] = useState<number>(0)
   const [rerollsTwo, setRerollsTwo] = useState<number>(0)
   const [winner, setWinner] = useState<string>('')
+  const [pokemonOneScore, setPokemonOneScore] = useState<number>(0)
+  const [pokemonTwoScore, setPokemonTwoScore] = useState<number>(0)
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -105,7 +107,14 @@ function App() {
   }
 
   const close = () => {
+    if (winner === 'Pokemon One') {
+      setPokemonOneScore(pokemonOneScore + 1)
+    } else {
+      setPokemonTwoScore(pokemonTwoScore + 1)
+    }
     setWinner('')
+    setPokemonTwo('')
+    setPokemonOne('')
   }
 
   const battle = () => {
@@ -679,8 +688,6 @@ function App() {
     }
   }
 
-
-
   return (
     <div className='flex relative items-center justify-center'>
       <div className={
@@ -692,49 +699,47 @@ function App() {
           <h1 className="text-[42px] m-[-20px] font-black text-[#0075BE]">BATTLER</h1>
         </div>
         <div className="flex mt-36">
-
-
           <div className="flex flex-col items-center h-full w-full mr-16">
+          <div className="text-xl text-center font-black text-[#0075BE] capitalize">Score: {pokemonOneScore}</div>
             {!pokemonOne ? 
-              <div className="flex flex-col items-center w-[260px h-[260px]">
-                <img src={pokeBall} alt="pokeball" className='w-52' /> 
-              </div> : 
-              <div className='flex flex-col w-[260px h-[260px]'>
+              <>
+                <div className="flex flex-col items-center w-[260px h-[260px] mt-10">
+                  <img src={pokeBall} alt="pokeball" className='w-52' /> 
+                </div>
+              </> : 
+              <div className='flex flex-col w-[260px h-[260px] mt-10'>
                 <img className="w-52 h-52 mt-5" src={pokemonOne} alt="" />
-                <h1 className="text-2xl text-center font-black text-[#0075BE] capitalize">{nameOne}</h1>
+                <h1 className="text-3xl text-center font-black text-[#0075BE] capitalize">{nameOne}</h1>
               </div>
               }
-            <button 
-              className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
-              onClick={handleClickOne}>
-                Choose Your Pokemon
-            </button>
-            {rerollsOne === 0 ? 
-              '' : 
-              <div className="text-2xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsOne}</div>  
-            }
+              <button 
+                className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
+                onClick={handleClickOne}>
+                  Choose Your Pokemon
+              </button>
+              <div className="text-xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsOne}</div>  
+            
           </div>
-        
-        
           <div className="flex flex-col items-center h-full w-full">
-            {!pokemonTwo ? 
-              <div className="flex flex-col items-center w-[260px h-[260px]">
-                <img src={pokeBall} alt="pokeball" className='w-52' /> 
-              </div> : 
-              <div className='flex flex-col w-[260px h-[260px]'>
+          <div className="text-xl text-center font-black text-[#0075BE] capitalize">Score: {pokemonTwoScore}</div>
+          {!pokemonTwo ? 
+              <>
+                <div className="flex flex-col items-center w-[260px h-[260px] mt-10">
+                  <img src={pokeBall} alt="pokeball" className='w-52' /> 
+                </div>
+              </> : 
+              <div className='flex flex-col w-[260px h-[260px] mt-10'>
                 <img className="w-52 h-52 mt-5" src={pokemonTwo} alt="" />
-                <h1 className="text-2xl text-center font-black text-[#0075BE] capitalize">{nameTwo}</h1>
+                <h1 className="text-3xl text-center font-black text-[#0075BE] capitalize">{nameTwo}</h1>
               </div>
-            }
-            <button 
-              className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
-              onClick={handleClickTwo}>
-                Choose Your Pokemon
-            </button>
-            {rerollsTwo === 0 ? 
-              '' :  
-              <div className="text-2xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsTwo}</div> 
-            }
+              }
+              <button 
+                className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
+                onClick={handleClickTwo}>
+                  Choose Your Pokemon
+              </button>
+              <div className="text-xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsTwo}</div>  
+            
             <div className="hidden">
               <ReactAudioPlayer
                 src={cry}
@@ -746,26 +751,29 @@ function App() {
         </div>
         <div className="flex flex-col items-center">
           <button 
-            className='flex justify-center align-center w-72 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-36' 
+            className='flex justify-center align-center w-72 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-20' 
             onClick={battle}>
-              Battle
+              Battle 
           </button>
         </div>
       </div>
-    {winner.length > 0 ?
-      <div className="flex flex-col absolute justify-center items-center w-[600px] h-[600px] bg-[#FFCC00] text-2xl font-black text-[#0075BE] p-5 rounded-full border-8 border-[#0075BE]">
-        <img className="w-52 h-52 mt-5" src={ winner === "Pokemon One" ? pokemonOne :pokemonTwo } alt="" />
-        {winner} is the WINNER!
-        <button 
-            className='flex justify-center items-center bg-[#0075BE] text-sm font-black text-[#FFCC00] p-2 mt-20 rounded-full w-6 h-6' 
-            onClick={close}>
-              X
-        </button>
-      </div>
-    :
-      ''
-    }
-
+      {winner.length > 0 ?
+        <div className="flex flex-col absolute animate-[fade-in-down_1s_ease-in-out] justify-center items-center w-[600px] h-[600px] bg-[#FFCC00] text-[40px] font-black text-[#0075BE] p-5 rounded-full border-8 border-[#0075BE]">
+          <img className="w-52 h-52 mt-5" src={ winner === "Pokemon One" ? pokemonOne :pokemonTwo } alt="" />
+          { winner === "Pokemon One" ? 
+            <p className="capitalize">{nameOne}</p>    
+            : 
+            <p className="capitalize">{nameTwo}</p>
+          } is the WINNER!
+          <button 
+              className='flex justify-center items-center bg-[#0075BE] text-sm font-black text-[#FFCC00] p-2 mt-20 rounded-full w-6 h-6' 
+              onClick={close}>
+                X
+          </button>
+        </div>
+      :
+        ''
+      }
     </div>
   )
 }
