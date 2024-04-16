@@ -37,7 +37,7 @@ function App() {
 
   const handleClickOne = () => {
     const randomNumberOne = Math.floor(Math.random() * 151)
-    if (rerollsOne < 5553) {
+    if (rerollsOne < 3) {
       axios.get(pokeURLs[randomNumberOne]).then((response) => {
         setTypesOne([])
         setTypesOne(response.data.types)
@@ -54,7 +54,7 @@ function App() {
   const handleClickTwo = () => {
     const randomNumberTwo = Math.floor(Math.random() * 151)
 
-    if (rerollsTwo < 5553) {
+    if (rerollsTwo < 3) {
       axios.get(pokeURLs[randomNumberTwo]).then((response) => {
         setTypesTwo([])
         setTypesTwo(response.data.types)
@@ -69,11 +69,9 @@ function App() {
   }
 
 
-
+  ////////////// Tie breaker /////////////
   const tieBreaker = () => {  
-    ////////////// Tie breaker /////////////
     const tieBreaker = Math.floor(Math.random() * 100)
-    console.log(tieBreaker)
     if (tieBreaker >= 50) {
       //Pokemon One Wins
       alert('Pokemon One Wins')
@@ -83,11 +81,10 @@ function App() {
     }
   }
 
+  ////////////// Half Advantage ////////////
   const halfAdvantage = () => {  
-    ////////////// Half Advantage /////////////
     const tieBreaker = Math.floor(Math.random() * 100)
-    console.log(tieBreaker)
-    if (tieBreaker >= 25) {
+    if (tieBreaker >= 75) {
       //Pokemon One Wins
       alert('Pokemon One Wins')
     } else {
@@ -96,23 +93,25 @@ function App() {
     }
   }
 
+  ////////////// Victory /////////////
+  const victory = () => {
+    alert('Pokemon One Wins')
+  }
+  
+  /////////// Defeat ////////////
   const defeat = () => {
-    /////////// Defeat ////////////
     alert('Pokemon Two Wins')
   }
 
   const getTypes = () => {
-    
-    // Tie Breaker
-    if (typesOne[0].type.name === typesTwo[0].type.name) {
-      tieBreaker()
-    }
 
+    setRerollsOne(0)
+    setRerollsTwo(0)
 
     switch (typesOne[0].type.name) {
       case "normal":
-        alert('normal')
         if (
+          typesTwo[0].type.name === "normal" ||
           typesTwo[0].type.name === "fire" ||
           typesTwo[0].type.name === "water" ||
           typesTwo[0].type.name === "electric" ||
@@ -125,9 +124,10 @@ function App() {
           typesTwo[0].type.name === "psychic" ||
           typesTwo[0].type.name === "bug" ||
           typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "fairy" ||
           typesTwo[0].type.name === "dark"
         ) {
-            tieBreaker() 
+          tieBreaker() 
         } else if (
           typesTwo[0].type.name === "rock" ||
           typesTwo[0].type.name === "steel" 
@@ -138,58 +138,539 @@ function App() {
         ) { 
           defeat() 
         }
-
         break
+
       case "fire":
-        alert('fire')
+        if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "dark"
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "fire"
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "fairy" ||
+          typesTwo[0].type.name === "steel"
+        ) {
+          victory()
+        }
         break
       case "water":
-        alert('water')
+        if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "fairy" ||
+          typesTwo[0].type.name === "steel"
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "dragon" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "fire"
+        ) {
+          victory()
+        }
         break
       case "electric":
-        alert('electric')
+        if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "fairy" ||
+          typesTwo[0].type.name === "steel" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "fire"
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "grass" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "water" 
+
+        ) {
+          victory()
+        } else if ( 
+          typesTwo[0].type.name === "ground"
+        ) { 
+          defeat() 
+        }
         break
       case "grass":
-        alert('grass')
+        if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "fairy" ||
+          typesTwo[0].type.name === "electric" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "steel" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "flying" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "water" 
+        ) {
+          victory()
+        } 
         break
       case "ice":
-        alert('ice')
+        if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "fairy" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "electric" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "steel" ||
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "ground"
+        ) {
+          victory()
+        }
         break
       case "fighting":
-        alert('fighting')
+        if (
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "fire"
+        ) {
+            tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "fairy" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "flying" 
+
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "steel" ||
+          typesTwo[0].type.name === "rock" 
+        ) {
+          victory()
+        } else if ( 
+          typesTwo[0].type.name === "ghost"
+        ) { 
+          defeat() 
+        }
         break
       case "poison":
-        alert('poison')
+        if (
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "fire" || 
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "bug" ||       
+          typesTwo[0].type.name === "flying" 
+        ) {
+            tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "rock" ||  
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ghost" 
+        ) {
+          halfAdvantage()
+        } else if (
+         
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "fairy" 
+
+        ) {
+          victory()
+        } else if ( 
+          typesTwo[0].type.name === "steel"
+        ) { 
+          defeat() 
+        }
         break
       case "ground":
-        alert('ground')
+        if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "fairy" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "steel" 
+        ) {
+          victory()
+        } else if (          
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "bug"
+        ) { 
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "flying"
+        ) { 
+          defeat() 
+        }
         break
       case "flying":
-        alert('flying')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "fairy" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "steel" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "bug"
+        ) {
+          victory()
+        }
         break
       case "psychic":
-        alert('psychic')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "fairy" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "steel" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" 
+        ) {
+          victory()
+        } else if (
+          typesTwo[0].type.name === "dark" 
+        ) { 
+          defeat() 
+        }
         break
       case "bug":
-        alert('bug')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "dragon" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "steel" ||
+          typesTwo[0].type.name === "fairy" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "dark" 
+        ) {
+          victory()
+        }
         break
       case "rock":
-        alert('rock')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "fairy" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "steel"
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "bug"
+        ) {
+          victory()
+        }
         break
       case "ghost":
-        alert('ghost')
+          if (
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "steel" ||
+          typesTwo[0].type.name === "fairy" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "dark"
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "ghost" 
+        ) {
+          victory()
+        }
         break
       case "dragon":
-        alert('dragon')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "dark" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "steel"
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "dragon"
+        ) {
+          victory()
+        } else if (
+          typesTwo[0].type.name === "fairy"
+        ) { 
+          defeat() 
+        }
         break
       case "dark":
-        alert('dark')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "steel" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "dark" ||
+          typesTwo[0].type.name === "fairy"
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "ghost"
+        ) {
+          victory()
+        }
         break
       case "steel":
-        alert('steel')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "dark" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "steel" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "fairy"
+        ) {
+          victory()
+        }
         break
       case "fairy":
-        alert('fairy')
+          if (
+          typesTwo[0].type.name === "normal" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "ghost" ||
+          typesTwo[0].type.name === "fairy" 
+        ) {
+          tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "steel"
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "dark"
+        ) {
+          victory()
+        }
         break
     }
   }
@@ -209,7 +690,6 @@ function App() {
           {!pokemonOne ? 
             <div className="flex flex-col items-center w-[260px h-[260px]">
               <img src={pokeBall} alt="pokeball" className='w-52' /> 
-              <h1 className="text-2xl font-black text-[#0075BE] mt-5">Choose Your Pokemon</h1>
             </div> : 
             <div className='flex flex-col w-[260px h-[260px]'>
               <img className="w-52 h-52 mt-5" src={pokemonOne} alt="" />
@@ -232,7 +712,6 @@ function App() {
           {!pokemonTwo ? 
             <div className="flex flex-col items-center w-[260px h-[260px]">
               <img src={pokeBall} alt="pokeball" className='w-52' /> 
-              <h1 className="text-2xl font-black text-[#0075BE] mt-5">Choose Your Pokemon</h1>
             </div> : 
             <div className='flex flex-col w-[260px h-[260px]'>
               <img className="w-52 h-52 mt-5" src={pokemonTwo} alt="" />
@@ -240,7 +719,7 @@ function App() {
             </div>
           }
           <button 
-            className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-10' 
+            className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
             onClick={handleClickTwo}>
               Choose Your Pokemon
           </button>
