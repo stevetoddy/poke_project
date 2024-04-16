@@ -18,7 +18,6 @@ function App() {
   const [cry, setCry] = useState<string>()
   const [rerollsOne, setRerollsOne] = useState<number>(0)
   const [rerollsTwo, setRerollsTwo] = useState<number>(0)
-  const [battleState, setBattleState] : any = useState([])
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -38,7 +37,7 @@ function App() {
 
   const handleClickOne = () => {
     const randomNumberOne = Math.floor(Math.random() * 151)
-    if (rerollsOne < 3) {
+    if (rerollsOne < 5553) {
       axios.get(pokeURLs[randomNumberOne]).then((response) => {
         setTypesOne([])
         setTypesOne(response.data.types)
@@ -55,7 +54,7 @@ function App() {
   const handleClickTwo = () => {
     const randomNumberTwo = Math.floor(Math.random() * 151)
 
-    if (rerollsTwo < 3) {
+    if (rerollsTwo < 5553) {
       axios.get(pokeURLs[randomNumberTwo]).then((response) => {
         setTypesTwo([])
         setTypesTwo(response.data.types)
@@ -69,41 +68,133 @@ function App() {
     }
   }
 
-  const getTypes = () => {
-    console.log(typesOne[0])
 
+
+  const tieBreaker = () => {  
     ////////////// Tie breaker /////////////
-    if (typesOne[0].type.name === typesTwo[0].type.name) {
-      const tieBreaker = Math.floor(Math.random() * 100)
-      console.log(tieBreaker)
-      if (tieBreaker >= 50) {
-        //Pokemon One Wins
-        alert('Pokemon One Wins')
-      } else {
-        // Pokemon Two Wins
-        alert('Pokemon Two Wins')
+    const tieBreaker = Math.floor(Math.random() * 100)
+    console.log(tieBreaker)
+    if (tieBreaker >= 50) {
+      //Pokemon One Wins
+      alert('Pokemon One Wins')
+    } else {
+      // Pokemon Two Wins
+      alert('Pokemon Two Wins')
+    }
+  }
 
-      }
+  const halfAdvantage = () => {  
+    ////////////// Half Advantage /////////////
+    const tieBreaker = Math.floor(Math.random() * 100)
+    console.log(tieBreaker)
+    if (tieBreaker >= 25) {
+      //Pokemon One Wins
+      alert('Pokemon One Wins')
+    } else {
+      // Pokemon Two Wins
+      alert('Pokemon Two Wins')
+    }
+  }
+
+  const defeat = () => {
+    /////////// Defeat ////////////
+    alert('Pokemon Two Wins')
+  }
+
+  const getTypes = () => {
+    
+    // Tie Breaker
+    if (typesOne[0].type.name === typesTwo[0].type.name) {
+      tieBreaker()
     }
 
-    typesOne.forEach((type : any , i) => {
-      setBattleState(...battleState,`TypeOne${i}: ${type.type.name}`)
-    })
-    typesTwo.forEach((type : any, i ) => {
-      setBattleState(...battleState, `TypeTwo${i}: ${type.type.name}`)
-    })
 
+    switch (typesOne[0].type.name) {
+      case "normal":
+        alert('normal')
+        if (
+          typesTwo[0].type.name === "fire" ||
+          typesTwo[0].type.name === "water" ||
+          typesTwo[0].type.name === "electric" ||
+          typesTwo[0].type.name === "grass" ||
+          typesTwo[0].type.name === "ice" ||
+          typesTwo[0].type.name === "fighting" ||
+          typesTwo[0].type.name === "poison" ||
+          typesTwo[0].type.name === "ground" ||
+          typesTwo[0].type.name === "flying" ||
+          typesTwo[0].type.name === "psychic" ||
+          typesTwo[0].type.name === "bug" ||
+          typesTwo[0].type.name === "dragon" ||
+          typesTwo[0].type.name === "dark"
+        ) {
+            tieBreaker() 
+        } else if (
+          typesTwo[0].type.name === "rock" ||
+          typesTwo[0].type.name === "steel" 
+        ) {
+          halfAdvantage()
+        } else if (
+          typesTwo[0].type.name === "ghost"
+        ) { 
+          defeat() 
+        }
 
-
+        break
+      case "fire":
+        alert('fire')
+        break
+      case "water":
+        alert('water')
+        break
+      case "electric":
+        alert('electric')
+        break
+      case "grass":
+        alert('grass')
+        break
+      case "ice":
+        alert('ice')
+        break
+      case "fighting":
+        alert('fighting')
+        break
+      case "poison":
+        alert('poison')
+        break
+      case "ground":
+        alert('ground')
+        break
+      case "flying":
+        alert('flying')
+        break
+      case "psychic":
+        alert('psychic')
+        break
+      case "bug":
+        alert('bug')
+        break
+      case "rock":
+        alert('rock')
+        break
+      case "ghost":
+        alert('ghost')
+        break
+      case "dragon":
+        alert('dragon')
+        break
+      case "dark":
+        alert('dark')
+        break
+      case "steel":
+        alert('steel')
+        break
+      case "fairy":
+        alert('fairy')
+        break
+    }
   }
 
-  const battle = () => {
-    if (battleState.length > 0) {
-      console.log(battleState)
-    }    
-    setRerollsOne(0)
-    setRerollsTwo(0)
-  }
+
 
   return (
     <>
@@ -170,12 +261,7 @@ function App() {
         <button 
           className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-20 mr-5' 
           onClick={getTypes}>
-            LOCK IT IN
-        </button>
-        <button 
-          className='flex justify-center w-96 h-12 bg-[#0075BE] p-3 rounded mt-20' 
-          onClick={battle}>
-            BATTLE
+            Battle
         </button>
       </div>
 
