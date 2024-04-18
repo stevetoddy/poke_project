@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import pokeHeading from '../public/International_Pokémon_logo.svg.png'
-import pokeBall from '../public/pokeball.svg'
 import ReactAudioPlayer from 'react-audio-player';
 import Pokemon from './components/Pokemon'
+import WinnerModal from './components/WinnerModal'
 
 const baseURL = "https://pokeapi.co/api/v2/pokemon/?limit=151";
 
@@ -738,7 +738,17 @@ function App() {
           </button>
         </div>
       </div>
-      {winner.length > 0 ?
+
+      <WinnerModal 
+        winner={winner} 
+        pokemonOne={pokemonOne} 
+        pokemonTwo={pokemonTwo}
+        nameOne={nameOne}
+        nameTwo={nameTwo}
+        close={close}
+      />
+
+      {/* {winner.length > 0 ?
         <div className="flex flex-col absolute animate-[fade-in-down_1s_ease-in-out] justify-center items-center w-[600px] h-[600px] bg-[#FFCC00] text-[40px] font-black text-[#0075BE] p-5 rounded-full border-8 border-[#0075BE]">
           <img className="w-52 h-52 mt-5" src={ winner === "Pokemon One" ? pokemonOne :pokemonTwo } alt="" />
           { winner === "Pokemon One" ? 
@@ -754,7 +764,7 @@ function App() {
         </div>
       :
         ''
-      }
+      } */}
     </div>
   )
 }
