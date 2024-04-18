@@ -20,9 +20,11 @@ Battles are decided by using the Pokemon's type, utilsing the type matrix from P
 
 ## Screenshot
 
-Include screenshots of your app to showcase its appearance and layout.
+![Screenshot 2024-04-18 110821](https://github.com/stevetoddy/poke_project/assets/49179255/52734246-b819-4660-9007-cc86fbc72aca)
+![Screenshot 2024-04-18 110906](https://github.com/stevetoddy/poke_project/assets/49179255/9db4d770-fcc7-4274-9fa3-c18dc65c2f3d)
+![Screenshot 2024-04-18 110928](https://github.com/stevetoddy/poke_project/assets/49179255/b5c625fe-e43d-4a43-b303-b146acfa9423)
 
-## External API(s)
+## External API
 
 - [PokeAPI](https://pokeapi.co/)
 
