@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import pokeHeading from '../public/International_Pokémon_logo.svg.png'
 import pokeBall from '../public/pokeball.svg'
 import ReactAudioPlayer from 'react-audio-player';
-
+import Pokemon from './components/Pokemon'
 
 const baseURL = "https://pokeapi.co/api/v2/pokemon/?limit=151";
 
@@ -709,54 +709,25 @@ function App() {
           <h1 className="text-[42px] m-[-20px] font-black text-[#0075BE]">BATTLER</h1>
         </div>
         <div className="flex mt-36">
-          <div className="flex flex-col items-center h-full w-full mr-16">
-          <div className="text-xl text-center font-black text-[#0075BE] capitalize">Score: {pokemonOneScore}</div>
-            {!pokemonOne ? 
-              <>
-                <div className="flex flex-col items-center w-[260px h-[260px] mt-10">
-                  <img src={pokeBall} alt="pokeball" className='w-52 animate-spin' /> 
-                </div>
-              </> : 
-              <div className='flex flex-col w-[260px h-[260px] mt-10'>
-                <img className={`w-52 h-52 mt-5 ${start ? 'translate-x-full duration-700' : ''}`} src={pokemonOne} alt="" />
-                <h1 className="text-3xl text-center font-black text-[#0075BE] capitalize">{nameOne}</h1>
-              </div>
-              }
-              <button 
-                className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
-                onClick={handleClickOne}>
-                  Choose Your Pokemon
-              </button>
-              <div className="text-xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsOne}</div>  
-            
-          </div>
-          <div className="flex flex-col items-center h-full w-full">
-          <div className="text-xl text-center font-black text-[#0075BE] capitalize">Score: {pokemonTwoScore}</div>
-          {!pokemonTwo ? 
-              <>
-                <div className="flex flex-col items-center w-[260px h-[260px] mt-10">
-                  <img src={pokeBall} alt="pokeball" className='w-52 animate-spin' /> 
-                </div>
-              </> : 
-              <div className='flex flex-col w-[260px h-[260px] mt-10'>
-                <img className={`w-52 h-52 mt-5 ${start ? '-translate-x-full duration-700' : ''}`} src={pokemonTwo} alt="" />
-                <h1 className="text-3xl text-center font-black text-[#0075BE] capitalize">{nameTwo}</h1>
-              </div>
-              }
-              <button 
-                className='flex justify-center align-center w-96 bg-[#0075BE] text-2xl font-black text-[#FFCC00] p-5 rounded mt-10' 
-                onClick={handleClickTwo}>
-                  Choose Your Pokemon
-              </button>
-              <div className="text-xl font-black text-[#0075BE] mt-5">Rerolls left: {3 - rerollsTwo}</div>  
-            
-            <div className="hidden">
-              <ReactAudioPlayer
+          <Pokemon 
+            start={start}
+            handleClickOne={handleClickOne}
+            pokemonOne={pokemonOne}
+            pokemonOneScore={pokemonOneScore}
+            nameOne={nameOne}
+            rerollsOne={rerollsOne}
+            handleClickTwo={handleClickTwo}
+            pokemonTwo={pokemonTwo}
+            pokemonTwoScore={pokemonTwoScore}
+            nameTwo={nameTwo}
+            rerollsTwo={rerollsTwo}
+          />
+          <div className="hidden">
+            <ReactAudioPlayer
                 src={cry}
                 autoPlay = {true}
                 controls
               />
-            </div>
           </div>
         </div>
         <div className="flex flex-col items-center">
