@@ -23,22 +23,27 @@ function App() {
   const [pokemonTwoScore, setPokemonTwoScore] = useState<number>(0)
   const [start, setStart] = useState<boolean>(false)
 
+  // Get Pokemon Information URLs (1-151)
   useEffect(() => {
     axios.get(baseURL).then((response) => {
       setAllPokemon(response.data);
     });
   }, []);
 
+  // Check if Initial Fetch is Successful
   if (!allPokemon) return null;
 
+  // Assign Relevant URLs and Define an Array to Hold Them
   const pokeList = allPokemon.results
   const pokeURLs: string[] =  []
 
 
+  // Map URLs to Array
   pokeList.map((pokemon: any) => {
     pokeURLs.push(pokemon.url)
   })
 
+  // Fetch Pokemon One's Information
   const handleClickOne = () => {
     const randomNumberOne = Math.floor(Math.random() * 151)
     if (rerollsOne < 3) {
@@ -55,6 +60,7 @@ function App() {
     }
   }
 
+  // Fetch Pokemon Two's Information
   const handleClickTwo = () => {
     const randomNumberTwo = Math.floor(Math.random() * 151)
 
@@ -73,7 +79,7 @@ function App() {
   }
 
 
-  ////////////// Tie breaker /////////////
+  // Tie breaker
   const tieBreaker = () => {  
     const tieBreaker = Math.floor(Math.random() * 100)
     if (tieBreaker >= 50) {
@@ -85,7 +91,7 @@ function App() {
     }
   }
 
-  ////////////// Half Advantage ////////////
+  // Half Advantage
   const halfAdvantage = () => {  
     const tieBreaker = Math.floor(Math.random() * 100)
     if (tieBreaker >= 75) {
@@ -97,16 +103,17 @@ function App() {
     }
   }
 
-  ////////////// Victory /////////////
+  // Victory
   const victory = () => {
     setWinner('Pokemon One')
   }
   
-  /////////// Defeat ////////////
+ // Defeat
   const defeat = () => {
     setWinner('Pokemon Two')
   }
 
+  // Close Winner Modal and Reset States
   const close = () => {
     if (winner === 'Pokemon One') {
       setPokemonOneScore(pokemonOneScore + 1)
@@ -120,6 +127,7 @@ function App() {
 
   }
 
+  // Battle Conditionals
   const battle = () => {
     if (pokemonOne.length === 0 || pokemonTwo.length === 0) {
       alert("Select both Pokemon")
@@ -700,10 +708,7 @@ function App() {
 
   return (
     <div className='flex relative items-center justify-center'>
-      <div className={
-          `${winner.length > 0 ? 
-          "blur" : ""}`
-      }>
+      <div className={`${winner.length > 0 ? "blur" : ""}`}>
         <div className="flex flex-col w-full items-center">
           <img className="mt-10 max-w-[600px]" src={pokeHeading} alt="" />
           <h1 className="text-[42px] m-[-20px] font-black text-[#0075BE]">BATTLER</h1>
@@ -738,7 +743,6 @@ function App() {
           </button>
         </div>
       </div>
-
       <WinnerModal 
         winner={winner} 
         pokemonOne={pokemonOne} 
@@ -747,24 +751,6 @@ function App() {
         nameTwo={nameTwo}
         close={close}
       />
-
-      {/* {winner.length > 0 ?
-        <div className="flex flex-col absolute animate-[fade-in-down_1s_ease-in-out] justify-center items-center w-[600px] h-[600px] bg-[#FFCC00] text-[40px] font-black text-[#0075BE] p-5 rounded-full border-8 border-[#0075BE]">
-          <img className="w-52 h-52 mt-5" src={ winner === "Pokemon One" ? pokemonOne :pokemonTwo } alt="" />
-          { winner === "Pokemon One" ? 
-            <p className="capitalize">{nameOne}</p>    
-            : 
-            <p className="capitalize">{nameTwo}</p>
-          } is the WINNER!
-          <button 
-              className='flex justify-center items-center bg-[#0075BE] text-sm font-black text-[#FFCC00] p-2 mt-20 rounded-full w-6 h-6' 
-              onClick={close}>
-                X
-          </button>
-        </div>
-      :
-        ''
-      } */}
     </div>
   )
 }
