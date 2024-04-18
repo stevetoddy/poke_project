@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import pokeHeading from '../public/International_Pokémon_logo.svg.png'
+import pokeHeading from '../public/International_Pokémon_logo.svg'
 import ReactAudioPlayer from 'react-audio-player';
 import Pokemon from './components/Pokemon'
 import WinnerModal from './components/WinnerModal'
